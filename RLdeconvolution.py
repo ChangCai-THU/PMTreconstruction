@@ -31,7 +31,11 @@ def lucydconv(lowwave, upwave,loop_times):
     low_deconv = low_deconv/constant
     i = 0
     while i<loop_times:
-        relative_blur = lowwave / np.convolve(low_deconv, upwave, mode='same')
+        array = np.convolve(low_deconv, upwave, mode='same')
+        cutpoint = np.where(array<1e-5)[0]
+        valid_array = np.append(array[:cutpoint],
+        new_low
+        relative_blur = lowwave[:valid_point] / np.convolve(low_deconv, upwave, mode='same')
         new_low_deconv = low_deconv * np.convolve(relative_blur, upwave_mirror, mode='same')
         if np.max(np.abs(low_deconv - new_low_deconv)) < 1e-4:
             break
